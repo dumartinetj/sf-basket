@@ -61,6 +61,7 @@ class Product
 
     public function setSlug(string $slug): self
     {
+        setlocale(LC_CTYPE, "fr_FR.UTF-8");
         $slug = preg_replace('~[^\pL\d]+~u', '-', $slug); // replace non letter or digits by -
         $slug = iconv('utf-8', 'us-ascii//TRANSLIT', $slug); // transliterate
         $slug = preg_replace('~[^-\w]+~', '', $slug); // remove unwanted characters

@@ -3,12 +3,34 @@
 {% block title %}Hello!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
+<div>
     {{ dump(app.session.get('cart')) }}
+    {% if app.session.has('cart') %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cartItem in app.session.get('cart') %}
+                    <tr>
+                        <td>{{ cartItem.product.name }}</td>
+                        <td>{{ cartItem.product.description }}</td>
+                        <td>{{ cartItem.product.price | number_format(2, ",", " ") }} €</td>
+                        <td>{{ cartItem.quantity }}</td>
+                        <td>{{ (cartItem.product.price * cartItem.quantity) | number_format(2, ",", " ") }} €</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-danger">Votre panier est vide, ajoutez des <a href="{{ path('product_list') }}">produits</a> au panier.</div>
+    {% endif %}
 </div>
 {% endblock %}

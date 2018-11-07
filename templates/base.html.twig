@@ -6,9 +6,9 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {#{% for flashbag in app.session.flash('success') %}
+        {% for flashbag in app.flashes('success') %}
             <div class="alert alert-success">{{ flashbag }}</div>
-        {% endfor %}#}
+        {% endfor %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
