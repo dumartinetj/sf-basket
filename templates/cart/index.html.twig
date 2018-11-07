@@ -9,10 +9,6 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>{{ product.name }}</h1>
-    <form action="{{ path('cart_add_product', {'id': product.id}) }}" method="POST">
-        <input type="number" name="quantity" id="quantity" min="1" max="100"/>
-        <button type="submit">Ajouter au panier</button>
-    </form>
+    {{ dump(app.session.get('cart')) }}
 </div>
 {% endblock %}
