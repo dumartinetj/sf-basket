@@ -17,6 +17,7 @@ After cloning this project from github navigate to the project directory and exe
  $ php bin/console doctrine:database:create
  $ php bin/console doctrine:migrations:migrate
  $ php bin/console doctrine:fixtures:load
+ $ yarn encore production
  $ php bin/console server:run
 ```
  
