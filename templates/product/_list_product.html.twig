@@ -1,0 +1,14 @@
+<div class="col-lg-3">
+    <div class="card text-center my-3">
+        <a href="{{ path('product_show', {'slug': product.slug}) }}">
+            <img src="/images/hp.jpeg" alt="{{ product.name }}" class="card-img-top">
+        </a>
+        <div class="card-body">
+            <h4 class="card-title"><a href="{{ path('product_show', {'slug': product.slug}) }}">{{ product.name }}<br/><span class="badge badge-primary badge-pill mt-2">{{ product.price | number_format(2,',') }} €</span></a></h4>
+            <p class="card-text">{{ product.description }}</p>
+        </div>
+        <div class="card-footer">
+            <a href="{{ path('product_show', {'slug': product.slug}) }}" class="btn btn-primary">Voir la fiche</a>
+        </div>
+    </div>
+</div>

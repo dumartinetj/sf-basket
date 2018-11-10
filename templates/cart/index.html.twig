@@ -5,32 +5,116 @@
 {% block body %}
 
 <div>
-    {{ dump(app.session.get('cart')) }}
-    {% if app.session.has('cart') %}
-        <table>
-            <thead>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
                 <tr>
-                    <th>Produit</th>
-                    <th>Description</th>
+                    <th class="w-25">Produit</th>
+                    <th class="w-25">Description</th>
                     <th>Prix</th>
                     <th>Quantité</th>
                     <th>Total</th>
+                    <th></th>
                 </tr>
-            </thead>
-            <tbody>
-                {% for cartItem in app.session.get('cart') %}
+                </thead>
+                <tbody>
+                    {% if app.session.has('cart') and (app.session.get('cart') | length > 0) %}
+                        {% for cartItem in app.session.get('cart') %}
+                            <tr>
+                                <td>{{ cartItem.product.name }}</td>
+                                <td>{{ cartItem.product.description }}</td>
+                                <td>{{ cartItem.product.price | number_format(2, ",", " ") }} €</td>
+                                <td>{{ cartItem.quantity }}</td>
+                                <td>{{ (cartItem.product.price * cartItem.quantity) | number_format(2, ",", " ") }} €</td>
+                                <td class="text-center">
+                                    <a href="#editProductModal" class="btn btn-sm btn-success editProductButton" data-toggle="modal" data-product-ref="{{ cartItem.product.name }}" data-product-id="{{ cartItem.product.id }}" data-quantity="{{ cartItem.quantity }}">Modifier</a>
+                                    <a href="#removeProductModal" class="btn btn-sm btn-danger removeProductButton" data-toggle="modal" data-product-ref="{{ cartItem.product.name }}" data-product-id="{{ cartItem.product.id }}">Supprimer</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr class="table-danger">
+                            <td colspan="6" class="text-center">
+                                Votre panier est vide, ajoutez des <a href="{{ path('product_list') }}">produits</a> au panier.
+                            </td>
+                        </tr>
+                    {% endif %}
                     <tr>
-                        <td>{{ cartItem.product.name }}</td>
-                        <td>{{ cartItem.product.description }}</td>
-                        <td>{{ cartItem.product.price | number_format(2, ",", " ") }} €</td>
-                        <td>{{ cartItem.quantity }}</td>
-                        <td>{{ (cartItem.product.price * cartItem.quantity) | number_format(2, ",", " ") }} €</td>
+                        <td colspan="4" class="text-right"><b>Total</b></td>
+                        <td><b>{{ app.session.get('cart_amount') | number_format(2, ",", " ") }} €</b></td>
+                        <td class="text-center"><a href="#emptyCartModal" data-toggle="modal" class="btn btn-sm btn-danger"><b>Vider le panier</b></a></td>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <div class="alert alert-danger">Votre panier est vide, ajoutez des <a href="{{ path('product_list') }}">produits</a> au panier.</div>
-    {% endif %}
+                </tbody>
+            </table>
+        </div>
 </div>
+{% endblock %}
+
+{% block modals %}
+    <div class="modal fade" id="emptyCartModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Vider le panier</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        Souhaitez-vous vraiment vider intégralement votre panier ?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <a href="{{ path('cart_empty') }}" class="btn btn-danger">Confirmer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editProductModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modifier <span class="editProductRef"></span></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form action="" data-baseurl="{{ path('cart_edit_product') }}" id="editProductForm" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="editProductQuantity">Quantité *</label>
+                            <input type="number" name="quantity" id="editProductQuantity" class="form-control mr-2" min="0" max="100" value="1" required="required"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Confirmer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="removeProductModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Retirer <span class="removeProductRef"></span> du panier</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        Souhaitez-vous vraiment retirer <span class="removeProductRef"></span> votre panier ?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <a href="" id="removeProductConfirmation" data-baseurl="{{ path('cart_remove_product') }}" class="btn btn-danger">Confirmer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    {{ encore_entry_script_tags('cart') }}
 {% endblock %}

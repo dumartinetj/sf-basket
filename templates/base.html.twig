@@ -10,14 +10,15 @@
     </head>
     <body>
         {% include '_nav.html.twig' %}
-        <main class="container-fluid">
+        <div class="container">
             {% for type, messages in app.flashes %}
                 {% for message in messages %}
                     <div class="alert alert-{{ type }}">{{ message }}</div>
                 {% endfor %}
             {% endfor %}
             {% block body %}{% endblock %}
-        </main>
+            {% block modals %}{% endblock %}
+        </div>
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

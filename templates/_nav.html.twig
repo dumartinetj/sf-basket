@@ -1,20 +1,17 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="{{ path('product_list') }}">My SF Basket</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"> {# TODO : ACTIVE SWITCH #}
-                    <a class="nav-link" href="{{ path('product_list') }}">Accueil
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('cart_index') }}">Mon panier <span class="badge badge-primary">4 produits</span></a>
-                </li>
-            </ul>
-        </div>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/">My SF Basket</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav ml-auto">
+            {% set currentRoute = app.request.attributes.get('_route') %}
+            <li class="nav-item {{ (currentRoute starts with "product_")?"active":"" }}">
+                <a class="nav-link" href="{{ path('product_list') }}">Accueil {% if currentRoute starts with "product_" %}<span class="sr-only">(current)</span>{% endif %}</a>
+            </li>
+            <li class="nav-item {{ (currentRoute starts with "cart_")?"active":"" }}">
+                <a class="nav-link" href="{{ path('cart_index') }}">Mon panier <span class="badge badge-primary">{{ app.session.has('cart_quantity') ? app.session.get('cart_quantity'):0 }} produits</span> {% if currentRoute starts with "cart_" %}<span class="sr-only">(current)</span>{% endif %}</a>
+            </li>
+        </ul>
     </div>
 </nav>

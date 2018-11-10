@@ -43,15 +43,52 @@ class CartController extends AbstractController
     }
 
     /**
-     * Suppression d'un produit du panier
+     * Modification d'un produit du panier
      *
-     * @Route("/cart/remove-product/{id}", methods={"POST"}, name="cart_remove_product")
+     * @Route("/cart/edit-product/{id}", defaults={"id":0}, methods={"POST"}, name="cart_edit_product")
      *
      * @param Product $product
      * @param Request $request
      * @param CartManager $cartManager
+     * @return RedirectResponse
+     */
+    public function editProduct(Product $product, Request $request, CartManager $cartManager){
+
+        $cartManager->editProduct($product, $request);
+
+        return new RedirectResponse($request->headers->get('referer'));
+    }
+
+    /**
+     * Suppression d'un produit du panier
+     *
+     * @Route("/cart/remove-product/{id}", defaults={"id":0}, name="cart_remove_product")
+     *
+     * @param Product $product
+     * @param Request $request
+     * @param CartManager $cartManager
+     * @return RedirectResponse
      */
     public function removeProduct(Product $product, Request $request, CartManager $cartManager){
 
+        $cartManager->removeProduct($product, $request);
+
+        return new RedirectResponse($request->headers->get('referer'));
+
+    }
+
+    /**
+     * Vider le panier
+     *
+     * @Route("/cart/empty", name="cart_empty")
+     *
+     * @param Request $request
+     * @param CartManager $cartManager
+     * @return RedirectResponse
+     */
+    public function empty(Request $request, CartManager $cartManager){
+        $cartManager->empty($request);
+
+        return new RedirectResponse($request->headers->get('referer'));
     }
 }
