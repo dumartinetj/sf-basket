@@ -78,7 +78,8 @@ class AppFixtures extends Fixture
             $product
                 ->setName($productToCreate['name'])
                 ->setDescription($productToCreate['description'])
-                ->setPrice($productToCreate['price']);
+                ->setPrice($productToCreate['price'])
+                ->setImage($product->getSlug().".jpg");
             $manager->persist($product);
         }
         $manager->flush();

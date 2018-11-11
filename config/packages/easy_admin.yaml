@@ -1,0 +1,25 @@
+easy_admin:
+    site_name: "SF Basket - Admin"
+    design:
+        brand_color: '#e46023'
+    entities:
+        Produit:
+            class: App\Entity\Product
+            list:
+                fields:
+                    - { property: 'name', label: 'Titre' }
+                    - { property: 'description', label: 'Description' }
+                    - { property: 'image', label: 'Couverture', type: 'image', base_path: '/images/products/' }
+                    - { property: 'price', label: 'Prix' }
+            show:
+                fields:
+                    - { property: 'name', label: 'Titre' }
+                    - { property: 'description', label: 'Description' }
+                    - { property: 'image', label: 'Couverture', type: 'image', base_path: '/images/products/' }
+                    - { property: 'price', label: 'Prix' }
+            form:
+                fields:
+                    - { property: 'name', label: 'Titre' }
+                    - { property: 'description', label: 'Description' }
+                    - { property: 'imageFile', label: 'Couverture', type: 'vich_image' }
+                    - { property: 'price', label: 'Prix' }
