@@ -1,5 +1,5 @@
 <div class="col-lg-3">
-    <div class="card text-center my-3">
+    <div class="card text-center my-3 productItem">
         <a href="{{ path('product_show', {'slug': product.slug}) }}">
             <img src="{{ product.image ? vich_uploader_asset(product, "imageFile") : "/images/products/placeholder.jpg" }}" alt="{{ product.name }}" class="card-img-top">
         </a>
