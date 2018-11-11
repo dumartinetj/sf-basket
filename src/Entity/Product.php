@@ -5,10 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use JMS\Serializer\Annotation AS Serializer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  * @Vich\Uploadable
+ * @Serializer\ExclusionPolicy("all")
  */
 class Product
 {
@@ -16,30 +18,41 @@ class Product
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Serializer\Expose()
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @var string
+     * @var string | null
+     *
+     * @Serializer\Expose()
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=150)
-     * @var string
+     * @var string | null
+     *
+     * @Serializer\Expose()
      */
     private $slug;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * @var string | null
+     *
+     * @Serializer\Expose()
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
      * @var string | null
+     *
+     * @Serializer\Expose()
+     * @Serializer\Accessor(getter="getFullImageUrl")
      */
     private $image;
 
@@ -57,7 +70,9 @@ class Product
 
     /**
      * @ORM\Column(type="float")
-     * @var float
+     * @var float | null
+     *
+     * @Serializer\Expose()
      */
     private $price;
 
@@ -80,9 +95,9 @@ class Product
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -100,9 +115,9 @@ class Product
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
@@ -149,6 +164,11 @@ class Product
     public function getImage(): ?string
     {
         return $this->image;
+    }
+
+    public function getFullImageUrl(): ?string
+    {
+        return ($this->image)?"/images/products/".$this->image:null;
     }
 
     /**
@@ -202,9 +222,9 @@ class Product
     }
 
     /**
-     * @return float
+     * @return null|float
      */
-    public function getPrice(): float
+    public function getPrice(): ?float
     {
         return $this->price;
     }

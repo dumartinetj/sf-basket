@@ -12,6 +12,12 @@
             <li class="nav-item {{ (currentRoute starts with "cart_")?"active":"" }}">
                 <a class="nav-link" href="{{ path('cart_index') }}">Mon panier <span class="badge badge-primary">{{ app.session.has('cart_quantity') ? app.session.get('cart_quantity'):0 }} produits</span> {% if currentRoute starts with "cart_" %}<span class="sr-only">(current)</span>{% endif %}</a>
             </li>
+            <li class="nav-item ml-3">
+                <a class="nav-link text-danger" href="{{ path('admin') }}"><b>Interface d'administration</b></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-primary" href="{{ path('app.swagger_ui') }}"><b>Documentation API</b></a>
+            </li>
         </ul>
     </div>
 </nav>

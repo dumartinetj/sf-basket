@@ -5,7 +5,7 @@
 {% block body %}
     <div class="row">
         <div class="col-4">
-            <img src="/images/hp.jpeg" alt="{{ product.name }}" class="img-thumbnail img-fluid"/>
+            <img src="{{ product.image ? vich_uploader_asset(product, "imageFile") : "/images/products/placeholder.jpg" }}" alt="{{ product.name }}" class="img-thumbnail img-fluid"/>
         </div>
         <div class="col-8">
             <h1>{{ product.name }}<br/><span class="badge badge-primary badge-pill">{{ product.price | number_format(2,',') }} €</span></h1>
