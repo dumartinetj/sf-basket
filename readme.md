@@ -23,4 +23,13 @@ After cloning this project from github navigate to the project directory and exe
  
 Then access the application in your browser at <http://localhost:8000>
 
+
+Testing
+------------
+For running unit tests and functional tests execute :
+```bash
+ $ ./bin/phpunit
+```
+
+
 [1]: https://symfony.com/doc/current/reference/requirements.html
