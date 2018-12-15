@@ -5,3 +5,5 @@ window.$ = $;
 window.jQuery = $;
 
 require('bootstrap');
+
+console.log("SF Basket - V1.0");
